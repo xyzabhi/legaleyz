@@ -12,7 +12,7 @@ export default function Header() {
     { href: "/", label: "Home" },
     { href: "/pricing", label: "Pricing" },
     { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
+    { href: "/support-center", label: "Support Center" },
   ];
 
   const isActive = (href: string) => {
