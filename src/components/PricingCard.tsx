@@ -2,7 +2,7 @@ import GlossyBadge from "./GlossyBadge";
 
 export default function PricingCard({ plan }: { plan: any }) {
   return (
-    <div className={`relative rounded-xl border bg-white p-6 pt-10 text-left mx-auto w-full max-w-xs min-w-[260px] ${plan.isPopular ? "border-3 border-green-500" : "border border-gray-300"}`}>
+    <div className={`relative rounded-2xl border-2 bg-white p-8 pt-12 text-left mx-auto w-full max-w-xs min-w-[280px] shadow-2xl hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 transform ${plan.isPopular ? "border-green-500 shadow-green-300 ring-4 ring-green-100 scale-105" : "border-gray-200 shadow-gray-200"}`}>
       {plan.isPopular && (
         <div className="absolute left-1/2 -top-4 -translate-x-1/2 z-10">
           <GlossyBadge text="Most Popular" />
@@ -15,7 +15,7 @@ export default function PricingCard({ plan }: { plan: any }) {
         {plan.period === "monthly" && <span className="text-base font-normal">/monthly</span>}
         {plan.period === "yearly" && <span className="text-base font-normal">/yearly</span>}
       </p>
-      <button className="w-full bg-blue-600 text-white p-2 rounded-md mt-4 cursor-pointer">{plan.action_name}</button>
+      <button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white p-3 rounded-xl mt-6 cursor-pointer font-semibold shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105">{plan.action_name}</button>
       <ul className="mt-4 space-y-2">
         {plan.features.map((feature: string, index: number) => (
           <li key={index} className="flex items-start gap-2">
