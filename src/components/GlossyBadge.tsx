@@ -1,4 +1,4 @@
-export default function GlossyBadge() {
+export default function GlossyBadge({text}: {text: string}) {
     return (
         <>
             <style>{`
@@ -58,7 +58,7 @@ export default function GlossyBadge() {
         `}</style>
 
             <span className="glossy-badge">
-                Save 20%
+                {text}
             </span>
         </>
     );
