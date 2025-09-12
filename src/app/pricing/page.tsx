@@ -4,6 +4,7 @@ import GlossyBadge from "@/components/GlossyBadge";
 import Header from "@/components/Header";
 import PricingCard from "@/components/PricingCard";
 import Toggle from "@/components/Toggle";
+import FAQItem from "@/components/FAQItem";
 import Link from "next/link";
 import { useState } from "react";
 import Footer from "@/components/Footer";
@@ -109,18 +110,20 @@ export default function Pricing() {
         }
       </section>
 
-<section className="flex flex-col items-center mx-auto w-full sm:w-11/12 md:w-4/5 lg:w-3/4 xl:w-2/5 px-2 pt-20 pb-10 text-center">
-
-  <h1 className="text-3xl font-semibold mb-8 text-center">Frequently Asked Questions</h1>
-  <div className="w-full flex flex-col gap-6">
+<section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div className="text-center mb-12">
+    <h1 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h1>
+    <p className="text-lg text-gray-600">Find quick answers to common questions</p>
+  </div>
+  <div className="space-y-4">
     {faqs.map((faq, index) => (
-      <div key={index} className="border-b border-gray-200 pb-4 text-left">
-        <h2 className="text-lg font-semibold mb-1">{faq.question}</h2>
-        <p className="text-gray-500">{faq.answer}</p>
-      </div>
+      <FAQItem 
+        key={index} 
+        question={faq.question} 
+        answer={faq.answer} 
+      />
     ))}
   </div>
-
 </section>
 
       <Footer />
