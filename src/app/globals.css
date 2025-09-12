@@ -38,3 +38,21 @@ body {
 .fade-up { animation: fadeUp .6s ease forwards; }
 .fade-up-delay { animation: fadeUp .6s ease .15s forwards; opacity: 0; }
 .fade-up-delay-2 { animation: fadeUp .6s ease .3s forwards; opacity: 0; }
+
+@keyframes offerFlash {
+  0% {
+    background-position: -100% 0;
+  }
+  60% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.offer-flash {
+  background: linear-gradient(120deg, #22c55e 60%, #fff 80%, #22c55e 100%);
+  background-size: 200% 100%;
+  animation: offerFlash 1.2s linear 1;
+}

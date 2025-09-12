@@ -1,4 +1,10 @@
+"use client";
+
+import GlossyBadge from "@/components/GlossyBadge";
+import Toggle from "@/components/Toggle";
 import Link from "next/link";
+import { useState } from "react";
+
 
 export default function Pricing() {
   const plans = [
@@ -26,55 +32,29 @@ export default function Pricing() {
       name: "Enterprise",
     },
   ];
+  const [active, setActive] = useState("monthly");
   return (
     <main className="min-h-screen bg-white text-black">
       <section className="mx-auto max-w-6xl px-6 pt-20 pb-10 text-center">
-        <h1 className="text-4xl font-bold mb-4">Legaleyz Pricing</h1>
+        <h1 className="text-4xl font-bold mb-4">Simple, Transparent</h1>
+        <h1 className="text-4xl font-bold mb-4">Pricing</h1>
         <p className="mb-8 text-lg text-gray-700">
-          Simple, transparent pricing for every team size. Start for free, upgrade as you grow.
+          Choose the plan that fits your needs. No hidden fees, no surprises.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
-          {plans.map((plan, idx) => (
-            <div
-              key={plan.name}
-              className={`border rounded-lg bg-gray-50 flex flex-col justify-between items-center min-h-[420px] p-6 ${plan.name === "Professional" ? "border-2 border-black shadow-lg scale-105 bg-white" : ""}`}
-            >
-              <div className="w-full flex flex-col items-center flex-1">
-                <h2 className="text-2xl font-semibold mb-2">{plan.name}</h2>
-                {plan.price && (
-                  <div className="text-3xl font-bold mb-4">{plan.price}<span className="text-base font-normal">{plan.name !== "Free" && plan.name !== "Enterprise" && "/mo"}</span></div>
-                )}
-                {plan.features && (
-                  <ul className="mb-6 text-left text-sm list-disc list-inside text-gray-700">
-                    {plan.features.map((feature) => (
-                      <li key={feature}>{feature}</li>
-                    ))}
-                  </ul>
-                )}
-                {plan.name === "Enterprise" && (
-                  <div className="mb-6 text-gray-600">Custom solutions for large organizations</div>
-                )}
-              </div>
-              <div className="w-full flex flex-col items-center mt-4">
-                {plan.name === "Free" && (
-                  <Link href="/signup" className="inline-block rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800">Get Started</Link>
-                )}
-                {plan.name === "Starter" && (
-                  <Link href="/signup" className="inline-block rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800">Start Starter</Link>
-                )}
-                {plan.name === "Professional" && (
-                  <Link href="/signup" className="inline-block rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800">Start Pro</Link>
-                )}
-                {plan.name === "Expert" && (
-                  <Link href="/signup" className="inline-block rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800">Start Expert</Link>
-                )}
-                {plan.name === "Enterprise" && (
-                  <Link href="/contact" className="inline-block rounded-md border border-black px-4 py-2 hover:bg-gray-100">Contact Sales</Link>
-                )}
-              </div>
-            </div>
-          ))}
+        <div className="flex justify-center items-center gap-4 mt-4 mb-8">
+          <span className={`text-base transition-colors duration-200 ${active === "monthly" ? "text-black" : "text-gray-500"}`}>Monthly</span>
+          {/* <div className="flex items-center rounded-full p-1 cursor-pointer bg-blue-500" style={{ minWidth: 48 }} onClick={()=>{
+            active === "monthly" ? setActive("yearly") : setActive("monthly");
+          }}>
+            <button className={`w-6 h-6 rounded-full ${active === "monthly" ? "bg-white" : ""} transition-colors duration-200`}></button>
+            <button className={`w-6 h-6 rounded-full ${active === "yearly" ? "bg-white" : ""} transition-colors duration-200`}></button>
+          </div> */}
+          <Toggle active={active} setActive={setActive} />
+          <span className={`flex items-center gap-2 text-base  transition-colors duration-200 ${active === "yearly" ? "text-black" : "text-gray-500"}`}>
+            Yearly <span className="ml-1"><GlossyBadge /></span>
+          </span>
         </div>
+
       </section>
       <footer className="border-t bg-gray-50 py-6 text-center text-sm text-gray-500 mt-12">
         <p>

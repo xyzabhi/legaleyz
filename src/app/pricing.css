@@ -1,0 +1,80 @@
+@keyframes flashShine {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.7), 0 0 0 0 rgba(255,255,255,0.3);
+    background: linear-gradient(120deg, #fff 0%, #fff 100%);
+    opacity: 1;
+  }
+  40% {
+    box-shadow: 0 0 8px 4px rgba(255,255,255,0.7), 0 0 16px 8px rgba(255,255,255,0.3);
+    background: linear-gradient(120deg, #fff 40%, #e0e0e0 60%, #fff 100%);
+    opacity: 1;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.7), 0 0 0 0 rgba(255,255,255,0.3);
+    background: linear-gradient(120deg, #fff 0%, #fff 100%);
+    opacity: 1;
+  }
+}
+
+.flash-shine {
+  animation: flashShine 0.7s linear;
+}
+
+.glossy-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: #10b981;
+  color: #fff;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+  transition: background 0.2s;
+  min-height: 1.8em;
+  min-width: 3.2em;
+  box-sizing: border-box;
+}
+.glossy-badge::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -120%;
+  width: 90%;
+  height: 220%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.7) 50%,
+    transparent 100%
+  );
+  filter: blur(1.2px) brightness(1.1);
+  transform: rotate(25deg);
+  animation: flashMove 3s cubic-bezier(0.77,0,0.18,1) infinite;
+  pointer-events: none;
+}
+@keyframes flashMove {
+  0% {
+    transform: translateX(-180%) rotate(25deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  20% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(160%) rotate(25deg);
+    opacity: 0.7;
+  }
+  80% {
+    opacity: 0.7;
+  }
+  100% {  
+    transform: translateX(250%) rotate(25deg);
+    opacity: 0;
+  }
+}
