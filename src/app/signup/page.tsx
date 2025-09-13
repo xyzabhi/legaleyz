@@ -1,15 +1,24 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import UseAnimations from "react-useanimations";
+import loading from "react-useanimations/lib/loading";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isSigningUp, setIsSigningUp] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSigningUp(true);
     // TODO: replace with real submit logic (validate, call API, show errors, redirect)
     console.log("submit - implement real signup flow");
+    setTimeout(() => {
+      router.push('/dashboard');
+    }, 1000);
   };
 
   return (
@@ -130,9 +139,21 @@ export default function Signup() {
             {/* Sign up button */}
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white rounded-md px-4 py-2 font-medium hover:bg-blue-600 transition"
+              className={`w-full flex items-center justify-center gap-2 rounded-md px-4 py-2 font-medium transition ${
+                isSigningUp 
+                  ? 'bg-blue-400 text-white cursor-not-allowed' 
+                  : 'bg-blue-500 text-white hover:bg-blue-600'
+              }`}
+              disabled={isSigningUp}
             >
-              Sign up
+              {isSigningUp ? (
+                <>
+                  <UseAnimations animation={loading} size={20} strokeColor="#ffffff" />
+                  Signing up...
+                </>
+              ) : (
+                'Sign up'
+              )}
             </button>
 
             {/* Divider */}
@@ -145,7 +166,12 @@ export default function Signup() {
             {/* Google button */}
             <button
               type="button"
-              className="w-full flex items-center justify-center gap-2 border border-gray-300 bg-white rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-50 transition"
+              className={`w-full flex items-center justify-center gap-2 border border-gray-300 rounded-md px-4 py-2 text-sm font-medium transition ${
+                isSigningUp 
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                  : 'bg-white hover:bg-gray-50'
+              }`}
+              disabled={isSigningUp}
             >
               {/* Google Icon */}
               <svg className="w-5 h-5" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden>

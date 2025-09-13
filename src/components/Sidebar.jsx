@@ -1,7 +1,8 @@
 "use client";
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useState } from 'react';
 import UseAnimations from "react-useanimations";
 import home from "react-useanimations/lib/home";
 import folder from "react-useanimations/lib/folder";
@@ -10,10 +11,13 @@ import settings from "react-useanimations/lib/settings";
 import searchToX from "react-useanimations/lib/searchToX";
 import plusToX from "react-useanimations/lib/plusToX";
 import menu from "react-useanimations/lib/menu";
+import loading from "react-useanimations/lib/loading";
 import { BellIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const menuItems = [
     {
@@ -66,6 +70,13 @@ const Sidebar = () => {
       return pathname === '/' || pathname === '/dashboard';
     }
     return pathname === href;
+  };
+
+  const handleSignOut = () => {
+    setIsSigningOut(true);
+    setTimeout(() => {
+      router.push('/');
+    }, 1000);
   };
 
   return (
@@ -182,7 +193,7 @@ const Sidebar = () => {
 
       {/* User Profile */}
       <div className="p-4 border-t border-gray-200">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 mb-3">
           <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
             <span className="text-white text-sm font-semibold">JD</span>
           </div>
@@ -191,6 +202,26 @@ const Sidebar = () => {
             <p className="text-xs text-gray-500 truncate">john@company.com</p>
           </div>
         </div>
+        
+        {/* Sign Out Button */}
+        <button 
+          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 group ${
+            isSigningOut 
+              ? 'text-gray-500 bg-gray-100 cursor-not-allowed' 
+              : 'text-red-600 hover:bg-red-50'
+          }`}
+          onClick={handleSignOut}
+          disabled={isSigningOut}
+        >
+          {isSigningOut ? (
+            <UseAnimations animation={loading} size={20} strokeColor="#6b7280" />
+          ) : (
+            <svg className="w-5 h-5 group-hover:scale-110 transition-transform duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+          )}
+          {isSigningOut ? 'Signing Out...' : 'Sign Out'}
+        </button>
       </div>
     </div>
   );
