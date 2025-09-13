@@ -420,7 +420,6 @@ export default function Settings() {
               <p className="text-sm text-gray-600">Manage your account and application preferences</p>
             </div>
             <div className="flex items-center gap-4">
-              <UseAnimations animation={settings} />
             </div>
           </div>
         </div>

@@ -193,7 +193,6 @@ export default function Search() {
               <p className="text-sm text-gray-600">Find documents by name, content, or tags</p>
             </div>
             <div className="flex items-center gap-4">
-              <UseAnimations animation={settings} />
             </div>
           </div>
         </div>

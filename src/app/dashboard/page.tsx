@@ -166,7 +166,6 @@ export default function Dashboard() {
               <p className="text-sm text-gray-600">Welcome back! Here's what's happening with your documents.</p>
             </div>
             <div className="flex items-center gap-4">
-              <UseAnimations animation={settings} />
             </div>
           </div>
         </div>

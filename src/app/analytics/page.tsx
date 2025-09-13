@@ -81,7 +81,6 @@ export default function Analytics() {
                   </option>
                 ))}
               </select>
-              <UseAnimations animation={settings} />
             </div>
           </div>
         </div>
