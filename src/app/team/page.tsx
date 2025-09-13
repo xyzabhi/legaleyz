@@ -132,7 +132,7 @@ export default function Team() {
       "bg-red-200 text-red-800",
       "bg-teal-200 text-teal-800"
     ];
-    const index = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const index = name.split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
     return colors[index % colors.length];
   };
 
@@ -141,171 +141,94 @@ export default function Team() {
       <Sidebar />
       <div className="flex-1 flex flex-col">
         {/* Top Header */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="bg-white border-b border-gray-200 px-6 py-4 mb-4">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Team</h1>
               <p className="text-sm text-gray-600">Manage your team members and collaboration</p>
             </div>
             <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                  <UseAnimations animation={settings} size={16} strokeColor="#9ca3af" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search team members..."
+                  className="w-80 pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
               <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                 <UseAnimations animation={plusToX} size={16} strokeColor="#ffffff" />
                 Add Member
               </button>
+              <UseAnimations animation={settings} />
             </div>
           </div>
         </div>
 
-        {/* Filters and Search */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <UseAnimations 
-                  animation={menu} 
-                  size={20} 
-                  strokeColor="#9ca3af" 
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2"
-                />
-                <input
-                  type="text"
-                  placeholder="Search team members..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-            <div className="flex gap-2">
-              {departments.map((dept) => (
-                <button
-                  key={dept}
-                  onClick={() => setSelectedDepartment(dept)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    selectedDepartment === dept
-                      ? 'bg-blue-100 text-blue-700 border border-blue-200'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  {dept}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
+      
 
-        {/* Team Stats */}
-        <div className="px-6 py-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Total Members</p>
-                  <p className="text-2xl font-bold text-gray-900">{teamMembers.length}</p>
-                </div>
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <UseAnimations animation={menu} size={24} strokeColor="#3b82f6" />
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Online Now</p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {teamMembers.filter(m => m.status === "online").length}
-                  </p>
-                </div>
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Active Today</p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {teamMembers.filter(m => m.status !== "offline").length}
-                  </p>
-                </div>
-                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                  <UseAnimations animation={menu} size={24} strokeColor="#f59e0b" />
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Total Documents</p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {teamMembers.reduce((sum, member) => sum + member.documents, 0)}
-                  </p>
-                </div>
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <UseAnimations animation={menu} size={24} strokeColor="#8b5cf6" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+     
 
-        {/* Team Members Grid */}
-        <div className="flex-1 px-6 pb-6">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        {/* Team Members List */}
+        <div className="flex-1 flex flex-col px-6 pb-6">
+          <div className="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
             <div className="px-6 py-4 border-b border-gray-200">
               <h2 className="text-lg font-semibold text-gray-900">
                 Team Members ({filteredMembers.length})
               </h2>
             </div>
-            <div className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <div className="flex-1 overflow-y-auto">
+              <div className="divide-y divide-gray-200">
                 {filteredMembers.map((member) => (
-                  <div key={member.id} className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-semibold ${getPastelColor(member.name)}`}>
-                          {member.avatar}
+                  <div key={member.id} className="p-6 hover:bg-gray-50 transition-colors">
+                    <div className="flex items-center gap-4">
+                      {/* Avatar */}
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 ${getPastelColor(member.name)}`}>
+                        {member.avatar}
+                      </div>
+                      
+                      {/* Member Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-3">
+                            <h3 className="font-semibold text-gray-900">{member.name}</h3>
+                            <span className="text-sm text-gray-600">{member.role}</span>
+                            <div className="flex items-center gap-2">
+                              <div className={`w-2 h-2 rounded-full ${getStatusColor(member.status)}`}></div>
+                              <span className="text-xs text-gray-500 capitalize">{member.status}</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-gray-600">{member.documents} docs</span>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-semibold text-gray-900">{member.name}</h3>
-                          <p className="text-sm text-gray-600">{member.role}</p>
+                        
+                        <div className="flex items-center gap-6 text-sm text-gray-600">
+                          <span>{member.email}</span>
+                          <span>•</span>
+                          <span>{member.department}</span>
+                          <span>•</span>
+                          <span>Last active: {member.lastActive}</span>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className={`w-3 h-3 rounded-full ${getStatusColor(member.status)}`}></div>
-                        <span className="text-xs text-gray-500 capitalize">{member.status}</span>
+                      
+                      {/* Actions */}
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <button className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
+                          Message
+                        </button>
+                        <button className="px-4 py-2 bg-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-300 transition-colors">
+                          Profile
+                        </button>
                       </div>
-                    </div>
-                    
-                    <div className="space-y-2 mb-4">
-                      <p className="text-sm text-gray-600">{member.email}</p>
-                      <p className="text-sm text-gray-500">Last active: {member.lastActive}</p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">Department:</span>
-                        <span className="text-sm font-medium text-gray-900">{member.department}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">Documents:</span>
-                        <span className="text-sm font-medium text-gray-900">{member.documents}</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex gap-2">
-                      <button className="flex-1 px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
-                        Message
-                      </button>
-                      <button className="flex-1 px-3 py-2 bg-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-300 transition-colors">
-                        View Profile
-                      </button>
                     </div>
                   </div>
                 ))}
               </div>
-              
+                
               {filteredMembers.length === 0 && (
                 <div className="text-center py-12">
                   <UseAnimations animation={menu} size={48} strokeColor="#9ca3af" />
@@ -317,6 +240,6 @@ export default function Team() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
   );
 }

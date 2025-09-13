@@ -264,7 +264,6 @@ export default function Documents() {
               </p>
             </div>
             <div className="flex items-center gap-4">
-              <UseAnimations animation={settings} />
             </div>
           </div>
         </div>

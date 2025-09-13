@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 import UseAnimations from "react-useanimations";
 import home from "react-useanimations/lib/home";
 import folder from "react-useanimations/lib/folder";
@@ -9,7 +10,7 @@ import settings from "react-useanimations/lib/settings";
 import searchToX from "react-useanimations/lib/searchToX";
 import plusToX from "react-useanimations/lib/plusToX";
 import menu from "react-useanimations/lib/menu";
-import { BellIcon } from '@heroicons/react/24/outline';
+import { BellIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -46,9 +47,9 @@ const Sidebar = () => {
       href: '/notifications'
     },
     {
-      name: 'Search',
-      animation: searchToX,
-      href: '/search'
+      name: 'Messages',
+      animation: null,
+      href: '/messages'
     }
   ];
 
@@ -82,26 +83,13 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* Search Bar */}
-      <div className="p-4 border-b border-gray-200">
-        <div className="relative">
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-            <UseAnimations animation={searchToX} size={16} strokeColor="#9ca3af" />
-          </div>
-          <input
-            type="text"
-            placeholder="Search documents..."
-            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-        </div>
-      </div>
 
       {/* Main Navigation */}
       <nav className="flex-1 px-4 py-4 space-y-1">
         {menuItems.map((item) => {
           const active = isActive(item.href);
           return (
-            <a
+            <Link
               key={item.name}
               href={item.href}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 ${
@@ -116,11 +104,25 @@ const Sidebar = () => {
                   size={20} 
                   strokeColor={active ? '#2563eb' : '#9ca3af'} 
                 />
-              ) : (
+              ) : item.name === 'Notifications' ? (
                 <BellIcon className={`w-5 h-5 ${active ? 'text-blue-600' : 'text-gray-400'}`} />
+              ) : (
+                <EnvelopeIcon className={`w-5 h-5 ${active ? 'text-blue-600' : 'text-gray-400'}`} />
               )}
-              {item.name}
-            </a>
+              <div className="flex items-center gap-2 flex-1">
+                {item.name}
+                {item.name === 'Notifications' && (
+                  <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                    3
+                  </span>
+                )}
+                {item.name === 'Messages' && (
+                  <span className="bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                    5
+                  </span>
+                )}
+              </div>
+            </Link>
           );
         })}
       </nav>
@@ -138,7 +140,7 @@ const Sidebar = () => {
         {bottomMenuItems.map((item) => {
           const active = isActive(item.href);
           return (
-            <a
+            <Link
               key={item.name}
               href={item.href}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 ${
@@ -153,7 +155,7 @@ const Sidebar = () => {
                 strokeColor={active ? '#2563eb' : '#9ca3af'} 
               />
               {item.name}
-            </a>
+            </Link>
           );
         })}
       </div>

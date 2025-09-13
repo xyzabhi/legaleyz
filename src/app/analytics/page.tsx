@@ -70,6 +70,16 @@ export default function Analytics() {
               <p className="text-sm text-gray-600">Insights and performance metrics for your documents</p>
             </div>
             <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                  <UseAnimations animation={settings} size={16} strokeColor="#9ca3af" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search analytics..."
+                  className="w-80 pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
               <select
                 value={selectedPeriod}
                 onChange={(e) => setSelectedPeriod(e.target.value)}
@@ -81,6 +91,7 @@ export default function Analytics() {
                   </option>
                 ))}
               </select>
+              <UseAnimations animation={settings} />
             </div>
           </div>
         </div>
@@ -142,112 +153,7 @@ export default function Analytics() {
           </div>
         </div>
 
-        {/* Charts and Data */}
-        <div className="flex-1 px-6 pb-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {/* Document Types Chart */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Document Types Distribution</h3>
-              <div className="space-y-4">
-                {analyticsData.documentTypes.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-4 h-4 rounded ${item.color}`}></div>
-                      <span className="text-sm font-medium text-gray-900">{item.type}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-32 bg-gray-200 rounded-full h-2">
-                        <div 
-                          className={`h-2 rounded-full ${item.color}`}
-                          style={{ width: `${item.percentage}%` }}
-                        ></div>
-                      </div>
-                      <span className="text-sm text-gray-600 w-12 text-right">{item.count}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Monthly Trend */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Monthly Document Activity</h3>
-              <div className="space-y-4">
-                {analyticsData.monthlyTrend.slice(-6).map((month, index) => (
-                  <div key={index} className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-900 w-12">{month.month}</span>
-                    <div className="flex-1 mx-4">
-                      <div className="flex gap-2">
-                        <div className="flex-1 bg-gray-200 rounded-full h-2">
-                          <div 
-                            className="bg-blue-500 h-2 rounded-full"
-                            style={{ width: `${(month.documents / 35) * 100}%` }}
-                          ></div>
-                        </div>
-                        <div className="flex-1 bg-gray-200 rounded-full h-2">
-                          <div 
-                            className="bg-green-500 h-2 rounded-full"
-                            style={{ width: `${(month.analyzed / 35) * 100}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-gray-600">{month.documents} docs</div>
-                      <div className="text-sm text-gray-500">{month.analyzed} analyzed</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Top Performers and Recent Activity */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Top Performers */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Performers</h3>
-              <div className="space-y-4">
-                {analyticsData.topPerformers.map((performer, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-sm font-semibold text-blue-800">
-                        {performer.name.split(' ').map(n => n[0]).join('')}
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">{performer.name}</p>
-                        <p className="text-sm text-gray-600">{performer.documents} documents</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-medium text-gray-900">{performer.efficiency}%</p>
-                      <p className="text-xs text-gray-600">efficiency</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Recent Activity */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
-              <div className="space-y-4">
-                {analyticsData.recentActivity.map((activity, index) => (
-                  <div key={index} className="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-gray-900">
-                        <span className="font-medium">{activity.user}</span> {activity.action}
-                      </p>
-                      <p className="text-sm text-gray-600 truncate">{activity.document}</p>
-                      <p className="text-xs text-gray-500">{activity.time}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+      
       </div>
     </div>
   );

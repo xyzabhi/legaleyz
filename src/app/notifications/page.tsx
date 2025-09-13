@@ -181,6 +181,16 @@ export default function Notifications() {
               </p>
             </div>
             <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                  <UseAnimations animation={settings} size={16} strokeColor="#9ca3af" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search notifications..."
+                  className="w-80 pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
               <button
                 onClick={markAllAsRead}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"

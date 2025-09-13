@@ -90,10 +90,10 @@ const folders = [
     }
 ];
 
-const formatDateAgo = (dateString) => {
+const formatDateAgo = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
-    const diffInSeconds = Math.floor((now - date) / 1000);
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
     if (diffInSeconds < 60) return 'Just now';
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
@@ -128,10 +128,21 @@ export default function Folders() {
                             <p className="text-sm text-gray-600">Organize your documents into folders for better management</p>
                         </div>
                         <div className="flex items-center gap-4">
+                            <div className="relative">
+                                <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                                    <UseAnimations animation={folder} size={16} strokeColor="#9ca3af" />
+                                </div>
+                                <input
+                                    type="text"
+                                    placeholder="Search folders..."
+                                    className="w-80 pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                />
+                            </div>
                             <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                 <UseAnimations animation={plusToX} size={16} strokeColor="#ffffff" />
                                 New Folder
                             </button>
+                            <UseAnimations animation={settings} />
                         </div>
                     </div>
                 </div>

@@ -420,6 +420,17 @@ export default function Settings() {
               <p className="text-sm text-gray-600">Manage your account and application preferences</p>
             </div>
             <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                  <UseAnimations animation={settings} size={16} strokeColor="#9ca3af" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search settings..."
+                  className="w-80 pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <UseAnimations animation={settings} />
             </div>
           </div>
         </div>
