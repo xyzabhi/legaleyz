@@ -127,12 +127,32 @@ const Sidebar = () => {
         })}
       </nav>
 
-      {/* Quick Actions */}
+      {/* Upload Document */}
       <div className="p-4 border-t border-gray-200">
-        <button className="w-full flex items-center gap-3 px-3 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors duration-150">
-          <UseAnimations animation={plusToX} size={20} strokeColor="#ffffff" />
-          New Document
-        </button>
+        <div className="relative">
+          <input
+            type="file"
+            id="file-upload"
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+            multiple
+            accept=".pdf,.doc,.docx,.txt,.xls,.xlsx,.ppt,.pptx"
+          />
+          <label
+            htmlFor="file-upload"
+            className="w-full flex flex-col items-center gap-3 px-4 py-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-dashed border-blue-300 rounded-xl text-center hover:from-blue-100 hover:to-indigo-100 hover:border-blue-400 transition-all duration-200 cursor-pointer group"
+          >
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+              <UseAnimations animation={plusToX} size={24} strokeColor="#ffffff" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-900 mb-1">Upload Documents</p>
+              <p className="text-xs text-gray-600">Drag & drop or click to browse</p>
+            </div>
+            <div className="flex items-center gap-1 text-xs text-blue-600">
+              <span>PDF, DOC, XLS, PPT</span>
+            </div>
+          </label>
+        </div>
       </div>
 
       {/* Bottom Navigation */}
