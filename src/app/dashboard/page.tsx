@@ -144,6 +144,7 @@ const documents = [
 
 export default function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const itemsPerPage = 10;
   const totalPages = Math.ceil(documents.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -156,7 +157,10 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      <Sidebar />
+      <Sidebar 
+        isCollapsed={isSidebarCollapsed} 
+        onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
+      />
       <div className="flex-1 flex flex-col">
         {/* Top Header */}
         <div className="bg-white border-b border-gray-200 px-6 py-4">

@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 // Helper function to format date as "X days ago"
 const formatDateAgo = (dateString) => {
     const date = new Date(dateString);
@@ -143,8 +144,12 @@ const AvatarGroup = ({ people }) => {
 };
 
 export default function DocumentListItem({ document }) {
+    const router = useRouter();
+
     return (
-        <div className="group hover:bg-slate-50 transition-colors duration-150 px-6 py-4 cursor-pointer">
+        <div className="group hover:bg-slate-50 transition-colors duration-150 px-6 py-4 cursor-pointer" onClick={()=>{
+            router.push(`/summary`);
+        }}>
             <div className="flex items-center w-full gap-4">
                 {/* File Type Icon */}
                 <div className="w-10 flex-shrink-0 flex justify-center">

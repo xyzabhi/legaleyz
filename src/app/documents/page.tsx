@@ -233,6 +233,7 @@ const documents = [
 
 export default function Documents() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const itemsPerPage = 10;
 
   // Calculate pagination
@@ -250,7 +251,10 @@ export default function Documents() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar 
+        isCollapsed={isSidebarCollapsed} 
+        onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
+      />
       
       {/* Main Content */}
       <div className="flex-1 flex flex-col">

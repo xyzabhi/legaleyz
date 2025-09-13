@@ -14,7 +14,7 @@ import menu from "react-useanimations/lib/menu";
 import loading from "react-useanimations/lib/loading";
 import { BellIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 
-const Sidebar = () => {
+const Sidebar = ({ isCollapsed, onToggle }) => {
   const pathname = usePathname();
   const router = useRouter();
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -80,18 +80,27 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-64 bg-white border-r border-gray-200 h-screen flex flex-col">
+    <div className={`${isCollapsed ? 'w-16' : 'w-64'} bg-white border-r border-gray-200 h-screen flex flex-col transition-all duration-300`}>
       {/* Logo */}
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-gray-200 relative">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
             <UseAnimations animation={folder} size={20} strokeColor="#ffffff" />
           </div>
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">LegalEyz</h1>
-            <p className="text-xs text-gray-500">Document Management</p>
-          </div>
+          {!isCollapsed && (
+            <div>
+              <h1 className="text-xl font-bold text-gray-900">LegalEyz</h1>
+              <p className="text-xs text-gray-500">Document Management</p>
+            </div>
+          )}
         </div>
+        {/* Collapse Toggle Button */}
+        <button
+          onClick={onToggle}
+          className="absolute top-6 right-4 p-1 hover:bg-gray-100 rounded-lg transition-colors"
+        >
+          <UseAnimations animation={menu} size={20} strokeColor="#6b7280" />
+        </button>
       </div>
 
 
@@ -107,7 +116,8 @@ const Sidebar = () => {
                 active
                   ? 'bg-blue-50 text-blue-700 border border-blue-200'
                   : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-              }`}
+              } ${isCollapsed ? 'justify-center' : ''}`}
+              title={isCollapsed ? item.name : ''}
             >
               {item.animation ? (
                 <UseAnimations 
@@ -116,55 +126,85 @@ const Sidebar = () => {
                   strokeColor={active ? '#2563eb' : '#9ca3af'} 
                 />
               ) : item.name === 'Notifications' ? (
-                <BellIcon className={`w-5 h-5 ${active ? 'text-blue-600' : 'text-gray-400'}`} />
+                <div className="relative">
+                  <BellIcon className={`w-5 h-5 ${active ? 'text-blue-600' : 'text-gray-400'}`} />
+                  {!isCollapsed && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
+                      3
+                    </span>
+                  )}
+                </div>
               ) : (
-                <EnvelopeIcon className={`w-5 h-5 ${active ? 'text-blue-600' : 'text-gray-400'}`} />
+                <div className="relative">
+                  <EnvelopeIcon className={`w-5 h-5 ${active ? 'text-blue-600' : 'text-gray-400'}`} />
+                  {!isCollapsed && (
+                    <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-medium">
+                      5
+                    </span>
+                  )}
+                </div>
               )}
-              <div className="flex items-center gap-2 flex-1">
-                {item.name}
-                {item.name === 'Notifications' && (
-                  <span className="bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                    3
-                  </span>
-                )}
-                {item.name === 'Messages' && (
-                  <span className="bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                    5
-                  </span>
-                )}
-              </div>
+              {!isCollapsed && (
+                <div className="flex items-center gap-2 flex-1">
+                  {item.name}
+                </div>
+              )}
             </Link>
           );
         })}
       </nav>
 
       {/* Upload Document */}
-      <div className="p-4 border-t border-gray-200">
-        <div className="relative">
-          <input
-            type="file"
-            id="file-upload"
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-            multiple
-            accept=".pdf,.doc,.docx,.txt,.xls,.xlsx,.ppt,.pptx"
-          />
-          <label
-            htmlFor="file-upload"
-            className="w-full flex flex-col items-center gap-3 px-4 py-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-dashed border-blue-300 rounded-xl text-center hover:from-blue-100 hover:to-indigo-100 hover:border-blue-400 transition-all duration-200 cursor-pointer group"
-          >
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-              <UseAnimations animation={plusToX} size={24} strokeColor="#ffffff" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-gray-900 mb-1">Upload Documents</p>
-              <p className="text-xs text-gray-600">Drag & drop or click to browse</p>
-            </div>
-            <div className="flex items-center gap-1 text-xs text-blue-600">
-              <span>PDF, DOC, XLS, PPT</span>
-            </div>
-          </label>
+      {!isCollapsed && (
+        <div className="p-4 border-t border-gray-200">
+          <div className="relative">
+            <input
+              type="file"
+              id="file-upload"
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              multiple
+              accept=".pdf,.doc,.docx,.txt,.xls,.xlsx,.ppt,.pptx"
+            />
+            <label
+              htmlFor="file-upload"
+              className="w-full flex flex-col items-center gap-3 px-4 py-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-dashed border-blue-300 rounded-xl text-center hover:from-blue-100 hover:to-indigo-100 hover:border-blue-400 transition-all duration-200 cursor-pointer group"
+            >
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                <UseAnimations animation={plusToX} size={24} strokeColor="#ffffff" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-gray-900 mb-1">Upload Documents</p>
+                <p className="text-xs text-gray-600">Drag & drop or click to browse</p>
+              </div>
+              <div className="flex items-center gap-1 text-xs text-blue-600">
+                <span>PDF, DOC, XLS, PPT</span>
+              </div>
+            </label>
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* Upload Button for Collapsed State */}
+      {isCollapsed && (
+        <div className="p-4 border-t border-gray-200">
+          <div className="relative">
+            <input
+              type="file"
+              id="file-upload-collapsed"
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              multiple
+              accept=".pdf,.doc,.docx,.txt,.xls,.xlsx,.ppt,.pptx"
+            />
+            <label
+              htmlFor="file-upload-collapsed"
+              className="w-full flex items-center justify-center p-3 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-dashed border-blue-300 rounded-lg hover:from-blue-100 hover:to-indigo-100 hover:border-blue-400 transition-all duration-200 cursor-pointer group"
+              title="Upload Documents"
+            >
+              <UseAnimations animation={plusToX} size={20} strokeColor="#3b82f6" />
+            </label>
+          </div>
+        </div>
+      )}
 
       {/* Bottom Navigation */}
       <div className="p-4 border-t border-gray-200">
@@ -178,14 +218,15 @@ const Sidebar = () => {
                 active
                   ? 'bg-blue-50 text-blue-700 border border-blue-200'
                   : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-              }`}
+              } ${isCollapsed ? 'justify-center' : ''}`}
+              title={isCollapsed ? item.name : ''}
             >
               <UseAnimations 
                 animation={item.animation} 
                 size={20} 
                 strokeColor={active ? '#2563eb' : '#9ca3af'} 
               />
-              {item.name}
+              {!isCollapsed && <span>{item.name}</span>}
             </Link>
           );
         })}
@@ -193,14 +234,16 @@ const Sidebar = () => {
 
       {/* User Profile */}
       <div className="p-4 border-t border-gray-200">
-        <div className="flex items-center gap-3 mb-3">
+        <div className={`flex items-center gap-3 mb-3 ${isCollapsed ? 'justify-center' : ''}`}>
           <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
             <span className="text-white text-sm font-semibold">JD</span>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">John Doe</p>
-            <p className="text-xs text-gray-500 truncate">john@company.com</p>
-          </div>
+          {!isCollapsed && (
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-gray-900 truncate">John Doe</p>
+              <p className="text-xs text-gray-500 truncate">john@company.com</p>
+            </div>
+          )}
         </div>
         
         {/* Sign Out Button */}
@@ -209,9 +252,10 @@ const Sidebar = () => {
             isSigningOut 
               ? 'text-gray-500 bg-gray-100 cursor-not-allowed' 
               : 'text-red-600 hover:bg-red-50'
-          }`}
+          } ${isCollapsed ? 'justify-center' : ''}`}
           onClick={handleSignOut}
           disabled={isSigningOut}
+          title={isCollapsed ? 'Sign Out' : ''}
         >
           {isSigningOut ? (
             <UseAnimations animation={loading} size={20} strokeColor="#6b7280" />
@@ -220,7 +264,7 @@ const Sidebar = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
           )}
-          {isSigningOut ? 'Signing Out...' : 'Sign Out'}
+          {!isCollapsed && (isSigningOut ? 'Signing Out...' : 'Sign Out')}
         </button>
       </div>
     </div>
