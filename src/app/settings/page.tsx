@@ -409,7 +409,7 @@ export default function Settings() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="h-screen bg-gray-50 flex">
       <Sidebar />
       <div className="flex-1 flex flex-col">
         {/* Top Header */}

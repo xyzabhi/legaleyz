@@ -86,7 +86,7 @@ export default function Pricing() {
   
   const [active, setActive] = useState("monthly");
   return (
-    <main className="min-h-screen bg-white text-black">
+    <main className="h-screen bg-white text-black">
       <Header/>
       <section className="mx-auto max-w-6xl px-6 pt-20 pb-10 text-center">
         <h1 className="text-4xl font-bold mb-4">Simple, Transparent</h1>

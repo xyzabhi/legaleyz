@@ -4,11 +4,12 @@ import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import UseAnimations from "react-useanimations";
 import settings from "react-useanimations/lib/settings";
-import folder from "react-useanimations/lib/folder";
-import { 
-  DocumentIcon, 
-  UserGroupIcon, 
-  CurrencyDollarIcon, 
+import alertTriangle from "react-useanimations/lib/alertTriangle";
+import checkmark from "react-useanimations/lib/checkmark";
+import {
+  DocumentIcon,
+  UserGroupIcon,
+  CurrencyDollarIcon,
   ExclamationTriangleIcon,
   CheckCircleIcon,
   ClockIcon,
@@ -212,12 +213,32 @@ const importantPoints = [
   }
 ];
 
-const getRiskColor = (risk) => {
+const getRiskColor = (risk: string) => {
   switch (risk) {
     case 'High': return 'text-red-600 bg-red-50 border-red-200';
     case 'Medium': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
     case 'Low': return 'text-green-600 bg-green-50 border-green-200';
     default: return 'text-gray-600 bg-gray-50 border-gray-200';
+  }
+};
+const getRiskColorIcon = (risk: string) => {
+  switch (risk) {
+    case 'High': return {
+      strokeColor: 'red',
+      size: 48,
+      animation:alertTriangle
+    };
+    case 'Medium': return {
+      strokeColor: 'orange',
+      size: 48,
+      animation:alertTriangle
+    };
+    case 'Low': return {
+      strokeColor: 'green',
+      size: 48,
+      animation:checkmark
+    };
+    default: return 'gray';
   }
 };
 
@@ -322,11 +343,11 @@ export default function DocumentSummary() {
 
   return (
     <div className="h-screen bg-gray-50 flex overflow-hidden">
-      <Sidebar 
-        isCollapsed={isSidebarCollapsed} 
-        onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
+      <Sidebar
+        isCollapsed={isSidebarCollapsed}
+        onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
       />
-      
+
       {/* Main Content */}
       <div className="flex-1 flex h-full">
         {/* Document Viewer - Left Side */}
@@ -386,7 +407,7 @@ export default function DocumentSummary() {
               <h2 className="text-lg font-semibold text-gray-900">Document Summary</h2>
               <UseAnimations animation={settings} size={20} strokeColor="#6b7280" />
             </div>
-            
+
             {/* Search */}
             <div className="relative">
               <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -412,11 +433,10 @@ export default function DocumentSummary() {
                 {filteredClauses.map((clause) => (
                   <div
                     key={clause.id}
-                    className={`p-3 rounded-lg border cursor-pointer transition-colors ${
-                      selectedClause?.id === clause.id
+                    className={`p-3 rounded-lg border cursor-pointer transition-colors ${selectedClause?.id === clause.id
                         ? 'border-blue-300 bg-blue-50'
                         : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-                    }`}
+                      }`}
                     onClick={() => setSelectedClause(clause)}
                   >
                     <div className="flex items-start justify-between mb-2">
@@ -425,9 +445,9 @@ export default function DocumentSummary() {
                         <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getRiskColor(clause.risk)}`}>
                           {clause.risk}
                         </span>
-                        {clause.highlighted && (
-                          <ExclamationTriangleIcon className="w-4 h-4 text-yellow-500" />
-                        )}
+
+                        <UseAnimations animation={getRiskColorIcon(clause.risk).animation} size={48} strokeColor={getRiskColorIcon(clause.risk).strokeColor} />
+
                       </div>
                     </div>
                     <p className="text-xs text-gray-600 mb-2">{clause.summary}</p>
@@ -480,9 +500,8 @@ export default function DocumentSummary() {
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-semibold text-gray-900">${cost.amount.toLocaleString()}</p>
-                      <p className={`text-xs px-2 py-1 rounded-full ${
-                        cost.status === 'Approved' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                      }`}>
+                      <p className={`text-xs px-2 py-1 rounded-full ${cost.status === 'Approved' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                        }`}>
                         {cost.status}
                       </p>
                     </div>
@@ -517,9 +536,8 @@ export default function DocumentSummary() {
                     <p className="text-xs text-gray-600 mb-2">{point.description}</p>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-blue-600">{point.action}</span>
-                      <span className={`text-xs px-2 py-1 rounded-full ${
-                        point.status === 'Open' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
-                      }`}>
+                      <span className={`text-xs px-2 py-1 rounded-full ${point.status === 'Open' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                        }`}>
                         {point.status}
                       </span>
                     </div>
@@ -532,9 +550,8 @@ export default function DocumentSummary() {
       </div>
 
       {/* ChatGPT-like Chat Interface */}
-      <div className={`fixed bottom-0 right-0 w-96 bg-white border-l border-t border-gray-200 shadow-2xl transition-transform duration-300 h-[500px] ${
-        isChatOpen ? 'translate-y-0' : 'translate-y-full'
-      }`}>
+      <div className={`fixed bottom-0 right-0 w-96 bg-white border-l border-t border-gray-200 shadow-2xl transition-transform duration-300 h-[500px] ${isChatOpen ? 'translate-y-0' : 'translate-y-full'
+        }`}>
         {/* Chat Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50 flex-shrink-0">
           <div className="flex items-center gap-3">
@@ -561,17 +578,15 @@ export default function DocumentSummary() {
               key={message.id}
               className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${
-                message.type === 'user' 
-                  ? 'bg-blue-600 text-white rounded-br-md' 
+              <div className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${message.type === 'user'
+                  ? 'bg-blue-600 text-white rounded-br-md'
                   : 'bg-white text-gray-900 border border-gray-200 rounded-bl-md'
-              }`}>
+                }`}>
                 <div className="text-sm leading-relaxed whitespace-pre-wrap">
                   {message.content || message.message}
                 </div>
-                <div className={`text-xs mt-1 ${
-                  message.type === 'user' ? 'text-blue-100' : 'text-gray-500'
-                }`}>
+                <div className={`text-xs mt-1 ${message.type === 'user' ? 'text-blue-100' : 'text-gray-500'
+                  }`}>
                   {formatTime(message.timestamp)}
                 </div>
               </div>
